@@ -8,12 +8,22 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State private var isCorrect: Bool? = nil
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Button {
+                
+            } label: {
+                Text("Prime")
+            }
+            
+            Button {
+                
+            } label: {
+                Text("Not Prime")
+            }
         }
         .padding()
     }
