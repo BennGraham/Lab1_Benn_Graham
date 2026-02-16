@@ -11,6 +11,8 @@ struct ContentView: View {
     
     @State private var isCorrect: Bool? = nil
     @State private var randomNumber: Int = Int.random(in: 1...1000)
+    @State private var attempts: [(number: Int, guess: String, correct: Bool)] = []
+    @State private var showDialog: Bool = false
     
     var body: some View {
         VStack {
@@ -19,7 +21,12 @@ struct ContentView: View {
             Button {
                 let answer = randomNumber.isPrime()
                 isCorrect = answer
-                randomNumber = Int.random(in: 1...1000)
+                attempts.append((number: randomNumber, guess: "Prime", correct: answer))
+                if attempts.count >= 10 {
+                    showDialog = true
+                } else {
+                    randomNumber = Int.random(in: 1...1000)
+                }
             } label: {
                 Text("Prime")
             }
@@ -27,7 +34,12 @@ struct ContentView: View {
             Button {
                 let answer = randomNumber.isPrime()
                 isCorrect = !answer
-                randomNumber = Int.random(in: 1...1000)
+                attempts.append((number: randomNumber, guess: "Not Prime", correct: !answer))
+                if attempts.count >= 10 {
+                    showDialog = true
+                } else {
+                    randomNumber = Int.random(in: 1...1000)
+                }
             } label: {
                 Text("Not Prime")
             }
@@ -39,6 +51,18 @@ struct ContentView: View {
             }
         }
         .padding()
+        .alert("Results", isPresented: $showDialog) {
+            Button("Try Again") {
+                attempts = []
+                isCorrect = nil
+                randomNumber = Int.random(in: 1...1000)
+            }
+        } message: {
+            let history = attempts.map { "\($0.number): \($0.guess) \($0.correct ? "✓" : "✗")" }.joined(separator: "\n")
+            let correctCount = attempts.filter { $0.correct }.count
+            let wrongCount = attempts.filter { !$0.correct }.count
+            Text("\(history)\n\nCorrect: \(correctCount) | Incorrect: \(wrongCount)")
+        }
     }
 }
 
