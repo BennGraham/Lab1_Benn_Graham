@@ -24,6 +24,12 @@ struct ContentView: View {
             } label: {
                 Text("Not Prime")
             }
+            
+            if let correct = isCorrect {
+                Image(systemName: correct ? "checkmark" : "xmark")
+                    .font(.system(size: 60))
+                    .foregroundColor(correct ? .green : .red)
+            }
         }
         .padding()
     }
