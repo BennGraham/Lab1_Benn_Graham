@@ -13,7 +13,7 @@ struct ContentView: View {
     @State private var randomNumber: Int? = nil
     @State private var attempts: [(number: Int, guess: String, correct: Bool)] = []
     @State private var showDialog: Bool = false
-    @State private var timeLeft: Int = 5
+    @State private var timeLeft: Double = 5.0
     @State private var timer: Timer? = nil
     
     var body: some View {
@@ -94,8 +94,7 @@ struct ContentView: View {
             
             ProgressView(value: Double(timeLeft), total: 5.0)
                   .background(Color.gray.opacity(0.2))
-                  .tint(timeLeft <= 2 ? .orange : .blue)
-                  .animation(.linear(duration: 1), value: timeLeft)
+                  .tint(timeLeft <= 1 ? .red : timeLeft <= 2 ? .orange : .blue)
                   .padding(.horizontal, 40)
         }
         .padding()
@@ -119,9 +118,9 @@ struct ContentView: View {
     func startTimer() {
         timer?.invalidate()
         timeLeft = 5
-        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+        timer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { _ in
             if timeLeft > 0 {
-                timeLeft -= 1
+                timeLeft -= 0.05
             } else {
                 guard let number = randomNumber else { return }
                 timer?.invalidate()
