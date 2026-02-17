@@ -75,11 +75,6 @@ struct ContentView: View {
             .disabled(randomNumber == nil)
             .opacity(randomNumber == nil ? 0.4 : 1.0)
             
-            if randomNumber != nil {
-                Text("\(timeLeft)")
-                    .font(.system(size: 48))
-            }
-            
             Spacer()
             
             if let correct = isCorrect {
@@ -96,6 +91,12 @@ struct ContentView: View {
                         .foregroundColor(.blue)
                 }
             }
+            
+            ProgressView(value: Double(timeLeft), total: 5.0)
+                  .background(Color.gray.opacity(0.2))
+                  .tint(timeLeft <= 2 ? .orange : .blue)
+                  .animation(.linear(duration: 1), value: timeLeft)
+                  .padding(.horizontal, 40)
         }
         .padding()
         .alert("Results", isPresented: $showDialog) {
