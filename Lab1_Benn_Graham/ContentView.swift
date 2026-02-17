@@ -1,8 +1,8 @@
-//
+// COMP3097 Lab Test 1
 //  ContentView.swift
 //  Lab1_Benn_Graham
 //
-//  Created by Benn Graham on 2026-02-15.
+//  Created by Benn Graham - 101412278 on 2026-02-15.
 //
 
 import SwiftUI
