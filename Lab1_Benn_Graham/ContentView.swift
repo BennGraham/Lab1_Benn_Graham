@@ -10,18 +10,24 @@ import SwiftUI
 struct ContentView: View {
     
     @State private var isCorrect: Bool? = nil
-    @State private var randomNumber: Int = Int.random(in: 1...1000)
+    @State private var randomNumber: Int? = nil
     @State private var attempts: [(number: Int, guess: String, correct: Bool)] = []
     @State private var showDialog: Bool = false
     
     var body: some View {
         VStack {
-            Text("\(randomNumber)")
+            Text(randomNumber.map(String.init) ?? "-")
+                .font(.system(size: 90, weight: .bold))
+                .padding()
             
+            Spacer()
+            
+        
             Button {
-                let answer = randomNumber.isPrime()
+                guard let currentNumber = randomNumber else { return }
+                let answer = currentNumber.isPrime()
                 isCorrect = answer
-                attempts.append((number: randomNumber, guess: "Prime", correct: answer))
+                attempts.append((number: currentNumber, guess: "Prime", correct: answer))
                 if attempts.count >= 10 {
                     showDialog = true
                 } else {
@@ -29,12 +35,21 @@ struct ContentView: View {
                 }
             } label: {
                 Text("Prime")
+                    .font(.system(size: 36))
+                    .padding()
+                    .frame(minWidth: 200)
+                    .background(.green)
+                    .foregroundColor(.white)
+                    .cornerRadius(12)
             }
+            .disabled(randomNumber == nil)
+            .opacity(randomNumber == nil ? 0.4 : 1.0)
             
             Button {
-                let answer = randomNumber.isPrime()
+                guard let currentNumber = randomNumber else { return }
+                let answer = currentNumber.isPrime()
                 isCorrect = !answer
-                attempts.append((number: randomNumber, guess: "Not Prime", correct: !answer))
+                attempts.append((number: currentNumber, guess: "Not Prime", correct: !answer))
                 if attempts.count >= 10 {
                     showDialog = true
                 } else {
@@ -42,12 +57,30 @@ struct ContentView: View {
                 }
             } label: {
                 Text("Not Prime")
+                    .font(.system(size: 36))
+                    .padding()
+                    .frame(minWidth: 200)
+                    .background(.red)
+                    .foregroundColor(.white)
+                    .cornerRadius(12)
             }
+            .disabled(randomNumber == nil)
+            .opacity(randomNumber == nil ? 0.4 : 1.0)
+            
+            Spacer()
             
             if let correct = isCorrect {
                 Image(systemName: correct ? "checkmark" : "xmark")
-                    .font(.system(size: 60))
+                    .font(.system(size: 72))
                     .foregroundColor(correct ? .green : .red)
+            } else {
+                Button {
+                    randomNumber = Int.random(in: 1...1000)
+                } label: {
+                    Text("Start")
+                        .font(.system(size: 36))
+                        .foregroundColor(.blue)
+                }
             }
         }
         .padding()
@@ -55,7 +88,7 @@ struct ContentView: View {
             Button("Try Again") {
                 attempts = []
                 isCorrect = nil
-                randomNumber = Int.random(in: 1...1000)
+                randomNumber = nil
             }
         } message: {
             let history = attempts.map { "\($0.number): \($0.guess) \($0.correct ? "✓" : "✗")" }.joined(separator: "\n")
