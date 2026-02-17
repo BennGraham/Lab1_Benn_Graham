@@ -13,6 +13,8 @@ struct ContentView: View {
     @State private var randomNumber: Int? = nil
     @State private var attempts: [(number: Int, guess: String, correct: Bool)] = []
     @State private var showDialog: Bool = false
+    @State private var timeLeft: Int = 5
+    @State private var timer: Timer? = nil
     
     var body: some View {
         VStack {
@@ -29,9 +31,12 @@ struct ContentView: View {
                 isCorrect = answer
                 attempts.append((number: currentNumber, guess: "Prime", correct: answer))
                 if attempts.count >= 10 {
+                    timer?.invalidate()
+                    timer = nil
                     showDialog = true
                 } else {
                     randomNumber = Int.random(in: 1...1000)
+                    startTimer()
                 }
             } label: {
                 Text("Prime")
@@ -51,9 +56,12 @@ struct ContentView: View {
                 isCorrect = !answer
                 attempts.append((number: currentNumber, guess: "Not Prime", correct: !answer))
                 if attempts.count >= 10 {
+                    timer?.invalidate()
+                    timer = nil
                     showDialog = true
                 } else {
                     randomNumber = Int.random(in: 1...1000)
+                    startTimer()
                 }
             } label: {
                 Text("Not Prime")
@@ -76,6 +84,7 @@ struct ContentView: View {
             } else {
                 Button {
                     randomNumber = Int.random(in: 1...1000)
+                    startTimer()
                 } label: {
                     Text("Start")
                         .font(.system(size: 36))
@@ -89,12 +98,37 @@ struct ContentView: View {
                 attempts = []
                 isCorrect = nil
                 randomNumber = nil
+                timer?.invalidate()
+                timer = nil
+                timeLeft = 5
             }
         } message: {
             let history = attempts.map { "\($0.number): \($0.guess) \($0.correct ? "✓" : "✗")" }.joined(separator: "\n")
             let correctCount = attempts.filter { $0.correct }.count
             let wrongCount = attempts.filter { !$0.correct }.count
             Text("\(history)\n\nCorrect: \(correctCount) | Incorrect: \(wrongCount)")
+        }
+    }
+    
+    func startTimer() {
+        timer?.invalidate()
+        timeLeft = 5
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+            if timeLeft > 0 {
+                timeLeft -= 1
+            } else {
+                guard let number = randomNumber else { return }
+                timer?.invalidate()
+                timer = nil
+                isCorrect = false
+                attempts.append((number: number, guess: "No Answer", correct: false))
+                if attempts.count >= 10 {
+                    showDialog = true
+                } else {
+                    randomNumber = Int.random(in: 1...1000)
+                    startTimer()
+                }
+            }
         }
     }
 }
