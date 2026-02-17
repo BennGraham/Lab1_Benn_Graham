@@ -75,6 +75,11 @@ struct ContentView: View {
             .disabled(randomNumber == nil)
             .opacity(randomNumber == nil ? 0.4 : 1.0)
             
+            if randomNumber != nil {
+                Text("\(timeLeft)")
+                    .font(.system(size: 48))
+            }
+            
             Spacer()
             
             if let correct = isCorrect {
