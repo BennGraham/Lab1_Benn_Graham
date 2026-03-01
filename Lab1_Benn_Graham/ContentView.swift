@@ -87,8 +87,12 @@ struct ContentView: View {
                     startTimer()
                 } label: {
                     Text("Start")
-                        .font(.system(size: 36))
-                        .foregroundColor(.blue)
+                        .font(.system(size: 36, weight: .semibold))
+                        .padding(.horizontal, 50)
+                        .padding(.vertical, 16)
+                        .background(.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(16)
                 }
             }
             
