@@ -18,9 +18,16 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            Text(randomNumber.map(String.init) ?? "-")
-                .font(.system(size: 90, weight: .bold))
-                .padding()
+            if let number = randomNumber {
+                Text(String(number))
+                    .font(.system(size: 90, weight: .bold))
+                    .frame(height: 120)
+            } else {
+                Text("Press Start to Begin")
+                    .font(.system(size: 24, weight: .medium))
+                    .foregroundColor(.gray)
+                    .frame(height: 120)
+            }
             
             Spacer()
             
