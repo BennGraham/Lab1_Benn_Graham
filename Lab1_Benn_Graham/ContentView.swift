@@ -31,6 +31,15 @@ struct ContentView: View {
             
             Spacer()
             
+            if randomNumber != nil {
+                ProgressView(value: Double(timeLeft), total: 5.0)
+                    .scaleEffect(y: 3)
+                    .frame(height: 12)
+                    .background(Color.gray.opacity(0.2))
+                    .tint(timeLeft <= 1 ? .red : timeLeft <= 2 ? .orange : .blue)
+                    .padding(.horizontal, 0)
+                    .clipShape(RoundedRectangle(cornerRadius: 6))
+            }
         
             Button {
                 guard let currentNumber = randomNumber else { return }
@@ -105,11 +114,6 @@ struct ContentView: View {
                         .cornerRadius(16)
                 }
             }
-            
-            ProgressView(value: Double(timeLeft), total: 5.0)
-                  .background(Color.gray.opacity(0.2))
-                  .tint(timeLeft <= 1 ? .red : timeLeft <= 2 ? .orange : .blue)
-                  .padding(.horizontal, 40)
         }
         .padding()
         .alert("Results", isPresented: $showDialog) {
