@@ -40,12 +40,13 @@ struct ContentView: View {
                 }
             } label: {
                 Text("Prime")
-                    .font(.system(size: 36))
-                    .padding()
-                    .frame(minWidth: 200)
+                    .font(.system(size: 36, weight: .semibold))
+                    .padding(.horizontal, 50)
+                    .padding(.vertical, 16)
+                    .frame(maxWidth: .infinity)
                     .background(.green)
                     .foregroundColor(.white)
-                    .cornerRadius(12)
+                    .cornerRadius(16)
             }
             .disabled(randomNumber == nil)
             .opacity(randomNumber == nil ? 0.4 : 1.0)
@@ -65,12 +66,13 @@ struct ContentView: View {
                 }
             } label: {
                 Text("Not Prime")
-                    .font(.system(size: 36))
-                    .padding()
-                    .frame(minWidth: 200)
+                    .font(.system(size: 36, weight: .semibold))
+                    .padding(.horizontal, 50)
+                    .padding(.vertical, 16)
+                    .frame(maxWidth: .infinity)
                     .background(.red)
                     .foregroundColor(.white)
-                    .cornerRadius(12)
+                    .cornerRadius(16)
             }
             .disabled(randomNumber == nil)
             .opacity(randomNumber == nil ? 0.4 : 1.0)
@@ -90,6 +92,7 @@ struct ContentView: View {
                         .font(.system(size: 36, weight: .semibold))
                         .padding(.horizontal, 50)
                         .padding(.vertical, 16)
+                        .frame(maxWidth: .infinity)
                         .background(.blue)
                         .foregroundColor(.white)
                         .cornerRadius(16)
