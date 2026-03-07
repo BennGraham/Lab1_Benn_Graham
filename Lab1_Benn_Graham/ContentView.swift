@@ -38,24 +38,17 @@ struct ContentView: View {
                     Text(String(number))
                         .font(.system(size: 90, weight: .bold))
                         .frame(height: 120)
-                } else {
-                    Text("Press Start to Begin")
-                        .font(.system(size: 24, weight: .medium))
-                        .foregroundColor(.gray)
-                        .frame(height: 120)
                 }
                 
                 Spacer()
                 
-                if randomNumber != nil {
-                    ProgressView(value: Double(timeLeft), total: 5.0)
-                        .scaleEffect(y: 3)
-                        .frame(height: 12)
-                        .background(Color.gray.opacity(0.2))
-                        .tint(timeLeft <= 1 ? .red : timeLeft <= 2 ? .orange : .blue)
-                        .padding(.horizontal, 0)
-                        .clipShape(RoundedRectangle(cornerRadius: 6))
-                }
+                ProgressView(value: Double(timeLeft), total: 5.0)
+                    .scaleEffect(y: 3)
+                    .frame(height: 12)
+                    .background(Color.gray.opacity(0.2))
+                    .tint(timeLeft <= 1 ? .red : timeLeft <= 2 ? .orange : .blue)
+                    .padding(.horizontal, 0)
+                    .clipShape(RoundedRectangle(cornerRadius: 6))
                 
                 Button {
                     guard let currentNumber = randomNumber else { return }
@@ -80,8 +73,6 @@ struct ContentView: View {
                         .foregroundColor(.white)
                         .cornerRadius(16)
                 }
-                .disabled(randomNumber == nil)
-                .opacity(randomNumber == nil ? 0.4 : 1.0)
                 
                 Button {
                     guard let currentNumber = randomNumber else { return }
@@ -106,8 +97,6 @@ struct ContentView: View {
                         .foregroundColor(.white)
                         .cornerRadius(16)
                 }
-                .disabled(randomNumber == nil)
-                .opacity(randomNumber == nil ? 0.4 : 1.0)
                 
                 Spacer()
                 
