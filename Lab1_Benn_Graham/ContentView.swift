@@ -114,6 +114,12 @@ struct ContentView: View {
                 Button("Try Again") {
                     attempts = []
                     isCorrect = nil
+                    randomNumber = Int.random(in: 1...1000)
+                    startTimer()
+                }
+                Button("Close", role: .cancel) {
+                    attempts = []
+                    isCorrect = nil
                     randomNumber = nil
                     timer?.invalidate()
                     timer = nil
