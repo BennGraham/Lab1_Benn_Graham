@@ -99,26 +99,15 @@ struct ContentView: View {
                 }
                 
                 Spacer()
-                
-                if let correct = isCorrect {
-                    Image(systemName: correct ? "checkmark" : "xmark")
-                        .font(.system(size: 72))
-                        .foregroundColor(correct ? .green : .red)
-                } else {
-                    Button {
-                        randomNumber = Int.random(in: 1...1000)
-                        startTimer()
-                    } label: {
-                        Text("Start")
-                            .font(.system(size: 36, weight: .semibold))
-                            .padding(.horizontal, 50)
-                            .padding(.vertical, 16)
-                            .frame(maxWidth: .infinity)
-                            .background(.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(16)
-                    }
-                }
+        
+                Image(systemName: isCorrect == true ? "checkmark" : "xmark")
+                    .frame(height: 90)
+                    .font(.system(size: 72))
+                    .foregroundColor(
+                        isCorrect == true ? .green :
+                        isCorrect == false ? .red : .clear
+                    )
+            
             }
             .padding()
             .alert("Results", isPresented: $showDialog) {
